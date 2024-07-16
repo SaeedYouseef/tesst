@@ -164,39 +164,94 @@ const arabicCurrencyNames = {
   "ZWL": "دولار زيمبابوي"
 };
 const latestUrl = `https://v6.exchangerate-api.com/v6/bb64387ae8fe689ba4ffb112/latest/USD`;
-let fromSeclect = document.getElementById('formOptionsList');
-let toSeclect = document.getElementById('toOptionsList');
 
+let fromSelect = document.getElementById('formOptionsList');
+let toSelect = document.getElementById('toOptionsList');
+let inputFrom = document.getElementById('fromInput');
+let inputTo = document.getElementById('toInput');
 async function fetchCurrencyData() {
   try {
-    // Fetch latest exchange rates
     const responseLatest = await fetch(latestUrl);
     const dataLatest = await responseLatest.json();
 
-    Object.entries(dataLatest.conversion_rates).forEach(([currencyCode, rate]) => {
-      const currencyNameArabic = arabicCurrencyNames[currencyCode] || rate;
-
-      // // Create a new option element for "from" select
-      let fromOption = document.createElement('option');
-      fromOption.value = currencyNameArabic; // Use currency code as value
-      fromOption.textContent =currencyCode; // Display currency name and code
-      fromSeclect.appendChild(fromOption);
-      // console.log(fromOption);
-
-      // // Create a new option element for "to" select
-      let toOption = document.createElement('option');
-      toOption.value = rate; // Use currency code as value
-      toOption.textContent = `${currencyNameArabic} | ${currencyCode}`; // Display currency name and code
-      toSeclect.appendChild(toOption);
-  
+    let currencyOptions = Object.entries(dataLatest.conversion_rates).map(([currencyCode, rate]) => {
+    const currencyNameArabic = arabicCurrencyNames[currencyCode] || currencyCode;
+      return { currencyCode, currencyNameArabic, rate };
     });
+    currencyOptions.sort((a, b) => a.currencyNameArabic.localeCompare(b.currencyNameArabic));
 
+    currencyOptions.forEach(({ currencyCode, currencyNameArabic, rate }) => {
+      let fromOption = document.createElement('option');
+      fromOption.value = currencyCode;
+      fromOption.dataset.val =rate;
+      fromOption.textContent = `${currencyNameArabic} | ${currencyCode}`;
+      fromSelect.appendChild(fromOption);
+      let toOption = document.createElement('option');
+      toOption.value = currencyCode;
+      toOption.dataset.val =rate;
+      toOption.textContent = `${currencyNameArabic} | ${currencyCode}`;
+      toSelect.appendChild(toOption);
+    });
+    fromSelect.value = 'USD';
+    toSelect.value = 'EGP';
+    
+    updateOptions()
   } catch (error) {
     console.error('Error fetching currency data:', error);
   }
 }
 
-console.log(fromSeclect)
+function updateOptions() {
+    let selectedFrom = fromSelect.value;
+    let selectedTo = toSelect.value;
+
+    Array.from(fromSelect.options).forEach(option => {
+      if (option.value && option.value === selectedTo) {
+        option.style.display = 'none';
+      } else {
+        option.style.display = 'block';
+      }
+    });
+
+    Array.from(toSelect.options).forEach(option => {
+      if (option.value && option.value === selectedFrom) {
+        option.style.display = 'none';
+      } else {
+        option.style.display = 'block';
+      }
+
+  });
+  updateConvertedValue()
+}
+
+function updateConvertedValue() {
+  if (fromInput.value.trim() === "") {
+      toInput.value = "";
+      return;
+  }
+  let fromRate = parseFloat(fromSelect.options[fromSelect.selectedIndex].dataset.val );
+  let toRate = parseFloat(toSelect.options[toSelect.selectedIndex].dataset.val);
+  let amount = parseFloat(fromInput.value);
+
+  let convertedValue = (amount * toRate) / fromRate;
+  toInput.value = convertedValue.toFixed(2);
+}
+
+
+fromInput.addEventListener('input', updateConvertedValue);
+fromSelect.addEventListener('change', updateOptions);
+toSelect.addEventListener('change', updateOptions);
 
 fetchCurrencyData();
 
+function swap(a, b) {
+    return [b, a]; 
+}
+
+
+document.getElementById('swap').addEventListener('click',()=>{
+  const [newFromValue, newToValue] = swap(fromSelect.value,toSelect.value);
+  fromSelect.value = newFromValue;
+  toSelect.value = newToValue;
+  updateConvertedValue();
+})

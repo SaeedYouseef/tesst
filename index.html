@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency exchange</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
-    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" /> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <style></style>
 </head>
@@ -26,23 +26,23 @@
     <main class="bg-body-tertiary " style="height: calc(100vh - 86.4px);">
         
         <div class="container h-100  flex-column align-content-center ">
-            <h2 class="mb-5">حول عملتك بسهولة</h2>
+            <div class="head mb-5 d-flex align-items-center">
+                <h2 class="ms-4">حول عملتك بسهولة </h2>
+                <i class="fa-solid fa-arrow-right-arrow-left fs-4 cursor-pointer " id="swap" ></i>
+            </div>
+            
+
             <div class="box-parent w-100 d-block d-md-flex">
                 <div class="box w-100 w-md-50 ps-0 ps-md-4 mb-3 mb-md-0">
                     <div class="body-box border py-4 px-2 rounded">
                         <div class="selection mb-3">
-                            <label for="fromOptoins" class="form-label">من: </label>
-                            <input class="form-control" list="formOptionsList" id="fromOptoins" placeholder="من...">
-                            <datalist id="formOptionsList">
-                                <option value="San Francisco">
-                                <option value="New York">
-                                <option value="Seattle">
-                                <option value="Los Angeles">
-                                <option value="Chicago">
-                            </datalist>
+                            <label for="formOptionsList" class="form-label">من: </label>
+                            <select id="formOptionsList" class="form-select" aria-label="Default select example">
+
+                            </select>
                         </div>
                         <div class="input">
-                            <input type="text" class="form-control" id="fromInput" value="1">
+                            <input type="text" class="form-control" id="fromInput" value="1" placeholder="Enter The Value">
                         </div>
                         
                     </div>
@@ -50,18 +50,13 @@
                 <div class="box w-100 w-md-50 pe-0 pe-md-4">
                     <div class="body-box border py-4 px-2 rounded">
                         <div class="selection mb-3">
-                            <label for="toOptoins" class="form-label">إلي: </label>
-                            <input class="form-control" list="toOptionsList" id="toOptoins" placeholder="إلي...">
-                            <datalist id="toOptionsList">
-                                <option value="San Francisco">
-                                <option value="New York">
-                                <option value="Seattle">
-                                <option value="Los Angeles">
-                                <option value="Chicago">
-                            </datalist>
+                            <label for="toOptionsList" class="form-label">إلي: </label>
+                            <select id="toOptionsList" class="form-select" aria-label="Default select example">
+            
+                            </select>
                         </div>
                         <div class="input">
-                            <input type="text" class="form-control" id="toInput" value="1">
+                            <input type="text" class="form-control" id="toInput" value="" disabled >
                         </div>
                     </div>
                 </div>
@@ -74,8 +69,9 @@
 
     
     
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="js/script.js"></script>
 </body>
 </html>
